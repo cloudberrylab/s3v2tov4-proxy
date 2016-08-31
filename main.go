@@ -39,6 +39,8 @@ type v2ToV4Proxy struct {
 
 func (p v2ToV4Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if strings.Contains(r.Header.Get("Authorization"), s3auth.SignV4Algorithm) {
+		r.URL.Scheme = p.fwdURL.Scheme
+		r.URL.Host = p.fwdURL.Host
 		// If the signature is V4 then pass through the request as is
 		// as it will be authenticated by the Minio server.
 		p.fwdHandler.ServeHTTP(w, r)
@@ -83,7 +85,8 @@ func (p v2ToV4Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	r.Header.Set("Authorization", p.egress.Sign(r.Method, encodedResource, encodedQuery, r.Header))
 
 	// Forward the request to Minio server.
-	r.URL = p.fwdURL
+	r.URL.Scheme = p.fwdURL.Scheme
+	r.URL.Host = p.fwdURL.Host
 	p.fwdHandler.ServeHTTP(w, r)
 }
 
