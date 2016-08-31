@@ -1,4 +1,20 @@
-package auth
+/*
+ * AWS S3 Signature Auth, (C) 2016 Minio, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package s3auth
 
 import (
 	"encoding/hex"
@@ -9,7 +25,7 @@ import (
 	"time"
 )
 
-// Sign-V4 calculation rule for single chunk is given here:
+// AWS S3 Signature V4 calculation rule for single chunk is given here:
 // http://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-header-based-auth.html
 
 // These headers are ignored for signature calculation.
@@ -20,7 +36,7 @@ var ignoredHeaders = map[string]bool{
 	"user-agent":     true,
 }
 
-// CredentialsV4 - S3 creds for Sign-V4.
+// CredentialsV4 - S3 creds for AWS S3 Signature V4.
 type CredentialsV4 struct {
 	AccessKey string
 	SecretKey string
