@@ -18,7 +18,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -62,7 +61,8 @@ func (p v2ToV4Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	gotAuth := r.Header.Get("Authorization")
 
 	if gotAuth != expectedAuth {
-		errStr := fmt.Sprintf("Error: got: %s, expected:%s", gotAuth, expectedAuth)
+		log.Printf("Signature mismatch error: got: %s, expected:%s\n", gotAuth, expectedAuth)
+		errStr := "Signature mismatch"
 		http.Error(w, errStr, http.StatusForbidden)
 		return
 	}
