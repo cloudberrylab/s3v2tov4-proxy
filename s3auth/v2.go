@@ -32,6 +32,7 @@ import (
 // Whitelist resource list that will be used in query string for signature-V2 calculation.
 var resourceList = []string{
 	"acl",
+	"delete",
 	"lifecycle",
 	"location",
 	"logging",
