@@ -58,9 +58,9 @@ type CredentialsV2 struct {
 
 // Sign - return the Authorization header value.
 func (c CredentialsV2) Sign(method string, encodedResource string, encodedQuery string, headers http.Header) string {
-	canonicalHeaaders := canonicalizedAmzHeadersV2(headers)
-	if len(canonicalHeaaders) > 0 {
-		canonicalHeaaders += "\n"
+	canonicalHeaders := canonicalizedAmzHeadersV2(headers)
+	if len(canonicalHeaders) > 0 {
+		canonicalHeaders += "\n"
 	}
 
 	stringToSign := strings.Join([]string{
@@ -68,7 +68,7 @@ func (c CredentialsV2) Sign(method string, encodedResource string, encodedQuery 
 		headers.Get("Content-MD5"),
 		headers.Get("Content-Type"),
 		headers.Get("Date"),
-		canonicalHeaaders,
+		canonicalHeaders,
 	}, "\n") + canonicalizedResourceV2(encodedResource, encodedQuery)
 
 	hm := hmac.New(sha1.New, []byte(c.SecretKey))
